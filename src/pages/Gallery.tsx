@@ -9,6 +9,10 @@ import womenImg from "@/assets/women-empowerment.jpg";
 import healthImg from "@/assets/health.jpg";
 import templeImg from "@/assets/temple-drone.jpg";
 import relicsImg from "@/assets/sacred-relics.jpg";
+import gallery1 from "@/assets/gallery-1.jpg";
+import gallery2 from "@/assets/gallery-2.jpg";
+import gallery3 from "@/assets/gallery-3.jpg";
+import gallery4 from "@/assets/gallery-4.jpg";
 
 const categories = [
   { id: "all", labelEn: "All", labelHi: "सभी" },
@@ -28,14 +32,18 @@ const galleryImages = [
   { src: educationImg, category: "service", titleEn: "Education Program", titleHi: "शिक्षा कार्यक्रम" },
   { src: womenImg, category: "service", titleEn: "Women Empowerment", titleHi: "महिला सशक्तिकरण" },
   { src: healthImg, category: "service", titleEn: "Health Camp", titleHi: "स्वास्थ्य शिविर" },
+  { src: gallery1, category: "events", titleEn: "Temple Premises", titleHi: "मंदिर का परिसर" },
+  { src: gallery2, category: "events", titleEn: "Evening View", titleHi: "शाम का दृश्य" },
+  { src: gallery3, category: "events", titleEn: "Temple Architecture", titleHi: "मंदिर की वास्तुकला" },
+  { src: gallery4, category: "events", titleEn: "Sacred Atmosphere", titleHi: "पवित्र वातावरण" },
 ];
 
 const Gallery = () => {
   const [activeCategory, setActiveCategory] = useState("all");
   const [selectedImage, setSelectedImage] = useState<typeof galleryImages[0] | null>(null);
 
-  const filteredImages = activeCategory === "all" 
-    ? galleryImages 
+  const filteredImages = activeCategory === "all"
+    ? galleryImages
     : galleryImages.filter(img => img.category === activeCategory);
 
   return (
@@ -65,11 +73,10 @@ const Gallery = () => {
               <button
                 key={category.id}
                 onClick={() => setActiveCategory(category.id)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                  activeCategory === category.id
-                    ? "bg-gold text-primary-foreground"
-                    : "bg-cream text-foreground hover:bg-gold/10"
-                }`}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${activeCategory === category.id
+                  ? "bg-gold text-primary-foreground"
+                  : "bg-cream text-foreground hover:bg-gold/10"
+                  }`}
               >
                 {category.labelEn}
                 <span className="text-xs ml-1 opacity-70">({category.labelHi})</span>
@@ -110,7 +117,7 @@ const Gallery = () => {
 
       {/* Lightbox */}
       {selectedImage && (
-        <div 
+        <div
           className="fixed inset-0 z-50 bg-foreground/90 flex items-center justify-center p-4"
           onClick={() => setSelectedImage(null)}
         >
