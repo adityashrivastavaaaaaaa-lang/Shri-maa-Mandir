@@ -33,7 +33,7 @@ const Chatbot = () => {
         }
     }, [messages, isOpen]);
 
-    const handleSendMessage = () => {
+    const handleSendMessage = async () => {
         if (!inputValue.trim()) return;
 
         const newUserMessage: Message = {
@@ -46,39 +46,24 @@ const Chatbot = () => {
         setMessages((prev) => [...prev, newUserMessage]);
         setInputValue("");
 
-        // Simulate bot response
-        setTimeout(() => {
-            const botResponse = getBotResponse(inputValue);
+        try {
+            const response = await fetch("/api/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: newUserMessage.text }),
+            });
+            const data = await response.json();
+
             const newBotMessage: Message = {
                 id: messages.length + 2,
-                text: botResponse,
+                text: data.reply,
                 sender: "bot",
                 timestamp: new Date(),
             };
             setMessages((prev) => [...prev, newBotMessage]);
-        }, 1000);
-    };
-
-    const getBotResponse = (input: string): string => {
-        const lowerInput = input.toLowerCase();
-
-        if (lowerInput.includes("hello") || lowerInput.includes("hi") || lowerInput.includes("namaste")) {
-            return "Namaste! How may I help you with your spiritual journey today?";
+        } catch (error) {
+            console.error("Chat API Error:", error);
         }
-        if (lowerInput.includes("time") || lowerInput.includes("timing") || lowerInput.includes("open")) {
-            return "The Mandir is open daily from 5:00 AM to 9:00 PM. Morning Aarti is at 6:00 AM and Evening Aarti is at 7:00 PM.";
-        }
-        if (lowerInput.includes("location") || lowerInput.includes("address") || lowerInput.includes("where")) {
-            return "We are located at: Near Devsthali Vidyapeeth, Lalpur, Rudrapur, Uttarakhand. You can find us on Google Maps!";
-        }
-        if (lowerInput.includes("donate") || lowerInput.includes("donation") || lowerInput.includes("contribute")) {
-            return "Thank you for your generosity! You can donate via our website's 'Donate' page or visit the Mandir office.";
-        }
-        if (lowerInput.includes("event") || lowerInput.includes("festival")) {
-            return "Upcoming events include Holi Mahotsav and Navratri Puja. Check our Announcements section for more details!";
-        }
-
-        return "I apologize, I didn't quite catch that. Could you please ask about Timings, Location, Events, or Donations?";
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {

@@ -1,34 +1,26 @@
 import { Bell, Calendar, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
 
-const announcements = [
-    {
-        id: 1,
-        date: "2024-03-25",
-        titleEn: "Holi Mahotsav Celebration",
-        titleHi: "होली महोत्सव समारोह",
-        descriptionEn: "Join us for the grand Holi celebration with colors and devotional music.",
-        descriptionHi: "रंगों और भक्ति संगीत के साथ भव्य होली समारोह में शामिल हों।",
-    },
-    {
-        id: 2,
-        date: "2024-04-10",
-        titleEn: "Navratri Special Puja",
-        titleHi: "नवरात्रि विशेष पूजा",
-        descriptionEn: "Nine days of spiritual awakening and special aarti.",
-        descriptionHi: "आध्यात्मिक जागृति और विशेष आरती के नौ दिन।",
-    },
-    {
-        id: 3,
-        date: "2024-04-15",
-        titleEn: "Free Health Checkup Camp",
-        titleHi: "निःशुल्क स्वास्थ्य जांच शिविर",
-        descriptionEn: "General health checkup for all devotees.",
-        descriptionHi: "सभी भक्तों के लिए सामान्य स्वास्थ्य जांच।",
-    },
-];
+type Announcement = {
+    id: number;
+    date: string;
+    titleEn: string;
+    titleHi: string;
+    descriptionEn: string;
+    descriptionHi: string;
+};
 
 export const AnnouncementSection = () => {
+    const [announcements, setAnnouncements] = useState<Announcement[]>([]);
+
+    useEffect(() => {
+        fetch("/api/announcements")
+            .then((res) => res.json())
+            .then((data) => setAnnouncements(data))
+            .catch((err) => console.error("Failed to fetch announcements:", err));
+    }, []);
+
     return (
         <section className="py-16 bg-gradient-to-br from-cream to-white">
             <div className="container mx-auto px-4">
