@@ -6,6 +6,8 @@ interface LayoutProps {
   children: ReactNode;
 }
 
+import Chatbot from "@/components/chat/Chatbot";
+
 const Layout = ({ children }: LayoutProps) => {
   return (
     <div className="min-h-screen flex flex-col">
@@ -14,6 +16,7 @@ const Layout = ({ children }: LayoutProps) => {
         {children}
       </main>
       <Footer />
+      <Chatbot />
     </div>
   );
 };
